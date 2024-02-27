@@ -17,7 +17,7 @@
   "contributors": [],
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@hapi/hapi": "21.3.2",
+    "@hapi/hapi": "21.3.3",
     "applicationinsights": "2.9.1"
   },
   "devDependencies": {
