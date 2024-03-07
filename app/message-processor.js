@@ -2,6 +2,10 @@ const { ServiceBusClient } = require('@azure/service-bus')
 const axios = require('axios')
 const { DefaultAzureCredential } = require('@azure/identity')
 
+
+const CONNECTION_RETRIES = 5
+const RETRY_DELAY = 5
+
 class MessageProcessorService {
   static instance
 
@@ -19,7 +23,7 @@ class MessageProcessorService {
   }
 
   async connectToServiceBusAndStartListening () {
-    await this.connectToServiceBus(5)
+    await this.connectToServiceBus(CONNECTION_RETRIES)
     await this.receiveMessageFromQueue(process.env.BANK_DETAILS_QUEUE)
     await this.initializeSender()
   }
@@ -33,8 +37,10 @@ class MessageProcessorService {
     }
   }
 
-  async connectToServiceBus (retries) {
+  async connectToServiceBus (retries = 1) {
     let retryAttempts = 0
+    let skipRetry= false
+    const successMessage = 'Successfully connected to Azure Service Bus!'
     const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING
     const host = process.env.SERVICE_BUS_HOST
     const username = process.env.SERVICE_BUS_USERNAME
@@ -44,27 +50,32 @@ class MessageProcessorService {
       try {
         if (connectionString) {
           this.serviceBusClient = new ServiceBusClient(connectionString)
-          console.log('Successfully connected to Azure Service Bus!')
+          console.log(successMessage)
           return
         } else if (host && username && password) {
           this.serviceBusClient = new ServiceBusClient(`Endpoint=sb://${host}/;SharedAccessKeyName=${username};SharedAccessKey=${password}`)
-          console.log('Successfully connected to Azure Service Bus!')
+          console.log(successMessage)
           return
         } else if (host) {
-          console.log(new DefaultAzureCredential())
           this.serviceBusClient = new ServiceBusClient(host, new DefaultAzureCredential())
-          console.log('Successfully connected to Azure Service Bus!')
+          console.log(successMessage)
           return
         } else {
-          return 'Could not connect to Azure Service Bus'
+          skipRetry = true
+          throw new Error('Missing credentials to connect to Azure Service Bus')
         }
       } catch (error) {
+
+        if (retryAttempts === retries || skipRetry) {
+          throw new Error(error)
+        }
+
         console.error(
           `Error connecting to Azure Service Bus (Attempt ${retryAttempts + 1}):`,
           error
         )
 
-        await new Promise((resolve) => setTimeout(resolve, 5000))
+        await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY))
 
         retryAttempts++
       }
