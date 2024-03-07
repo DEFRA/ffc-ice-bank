@@ -2,7 +2,6 @@ const { ServiceBusClient } = require('@azure/service-bus')
 const axios = require('axios')
 const { DefaultAzureCredential } = require('@azure/identity')
 
-
 const CONNECTION_RETRIES = 5
 const RETRY_DELAY = 5
 
@@ -39,7 +38,7 @@ class MessageProcessorService {
 
   async connectToServiceBus (retries = 1) {
     let retryAttempts = 0
-    let skipRetry= false
+    let skipRetry = false
     const successMessage = 'Successfully connected to Azure Service Bus!'
     const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING
     const host = process.env.SERVICE_BUS_HOST
@@ -65,7 +64,6 @@ class MessageProcessorService {
           throw new Error('Missing credentials to connect to Azure Service Bus')
         }
       } catch (error) {
-
         if (retryAttempts === retries || skipRetry) {
           throw new Error(error)
         }
