@@ -1,4 +1,5 @@
 require('./insights').setup()
+require('dotenv').config()
 const Hapi = require('@hapi/hapi')
 
 const server = Hapi.server({

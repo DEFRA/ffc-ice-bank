@@ -1,0 +1,58 @@
+environment: production
+environmentCode:
+name: ffc-ice-bank
+namespace: ffc-ice
+workstream: ffc-ice
+image: ffc-ice-bank
+
+labels:
+  component: service
+
+appInsights:
+  connectionString:
+
+containerConfigMap:
+  name: ffc-ice-bank-config-map
+
+containerSecret:
+  name: ffc-ice-bank-container-secret
+  type: Opaque
+
+deployment: {}
+
+container:
+  requestMemory: 100Mi
+  requestCpu: 100m
+  limitMemory: 100Mi
+  limitCpu: 100m
+  port: 3000
+  serviceBusHost: SNDFFCINFSB1001.servicebus.windows.net
+  bankDetailsQueue: ffc-rpi-bao-bankdetails
+  caseDetailsQueue: ffc-rpi-bao-casedetails
+  dynamics365ApiUrl:
+  serviceBusConnectionString:  
+  serviceBusUsername:  
+  serviceBusPassword:  
+  
+
+livenessProbe:
+  path: /healthz
+  port: 3000
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 5
+
+readinessProbe:
+  path: /healthy
+  port: 3000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 3
+  timeoutSeconds: 5
+
+aadPodIdentity: true
+
+azureIdentity:
+  clientID: not-a-real-clientID
+  resourceID: not-a-real-resourceID

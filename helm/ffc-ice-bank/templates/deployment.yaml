@@ -1,0 +1,8 @@
+{{- include "ffc-helm-library.deployment" (list . "ffc-ice-bank.deployment") -}}
+{{- define "ffc-ice-bank.deployment" -}}
+spec:
+  template:
+    spec:
+      containers:
+      - {{ include "ffc-helm-library.container" (list . "ffc-ice-bank.container") }}
+{{- end -}}

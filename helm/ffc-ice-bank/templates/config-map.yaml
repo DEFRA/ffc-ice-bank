@@ -1,0 +1,11 @@
+{{- include "ffc-helm-library.container-config-map" (list . "ffc-ice-bank.config-map") -}}
+{{- define "ffc-ice-bank.config-map" -}}
+data:
+  NODE_ENV: {{ quote .Values.environment }}
+  PORT: {{ quote .Values.container.port }}
+  APPINSIGHTS_CLOUDROLE: {{ quote .Values.name }}
+  BANK_DETAILS_QUEUE: {{ quote .Values.container.bankDetailsQueue }}
+  CASE_DETAILS_QUEUE: {{ quote .Values.container.caseDetailsQueue }}
+  D365_API_URL: {{ quote .Values.container.dynamics365ApiUrl }}
+  SERVICE_BUS_HOST: {{ quote .Values.container.serviceBusHost }}
+{{- end -}}
