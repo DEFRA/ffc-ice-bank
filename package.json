@@ -1,8 +1,8 @@
 {
-  "name": "ffc-template-node",
-  "version": "0.1.0",
-  "description": "description-of-project-goes-here",
-  "homepage": "https://github.com/DEFRA/ffc-template-node",
+  "name": "ffc-ice-bank",
+  "version": "0.1.2",
+  "description": "FFC Bank microservice",
+  "homepage": "https://github.com/DEFRA/ffc-ice-bank",
   "main": "app/index.js",
   "scripts": {
     "pretest": "npm run test:lint",
@@ -17,8 +17,12 @@
   "contributors": [],
   "license": "OGL-UK-3.0",
   "dependencies": {
+    "@azure/identity": "^4.0.1",
+    "@azure/service-bus": "^7.9.4",
     "@hapi/hapi": "21.3.2",
-    "applicationinsights": "2.9.1"
+    "applicationinsights": "2.9.1",
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.4"
   },
   "devDependencies": {
     "jest": "29.7.0",

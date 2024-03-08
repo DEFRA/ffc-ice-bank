@@ -1,10 +1,10 @@
 services:
-  ffc-template-node:
+  ffc-ice-bank:
     build:
       context: .
       target: production
-    image: ffc-template-node
-    container_name: ffc-template-node
+    image: ffc-ice-bank
+    container_name: ffc-ice-bank
     environment:
-      APPINSIGHTS_CLOUDROLE: ffc-template-node-local
+      APPINSIGHTS_CLOUDROLE: ffc-ice-bank-local
       APPINSIGHTS_CONNECTIONSTRING: ${APPINSIGHTS_CONNECTIONSTRING}
