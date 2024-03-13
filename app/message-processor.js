@@ -114,6 +114,7 @@ class MessageProcessorService {
       return 'success'
     } catch (error) {
       console.error('Error setting up message receiver:', error)
+      return error
     }
   }
 
