@@ -10,6 +10,7 @@ class MessageProcessorService {
 
   serviceBusClient
   sender
+  receiver
 
   constructor () {
     this.connectToServiceBusAndStartListening()
@@ -19,20 +20,24 @@ class MessageProcessorService {
     if (!this.instance) {
       this.instance = new MessageProcessorService()
     }
+    return this.instance
   }
 
   async connectToServiceBusAndStartListening () {
     await this.connectToServiceBus(CONNECTION_RETRIES)
     await this.receiveMessageFromQueue(process.env.BANK_DETAILS_QUEUE)
     await this.initializeSender()
+    return 'success'
   }
 
   async initializeSender () {
     try {
       this.sender = await this.serviceBusClient.createSender(process.env.CASE_DETAILS_QUEUE)
       console.log('Successfully created sender')
+      return 'success'
     } catch (error) {
       console.log(error)
+      throw error
     }
   }
 
@@ -87,21 +92,16 @@ class MessageProcessorService {
 
   async receiveMessageFromQueue (queueName) {
     try {
-      const receiver = this.serviceBusClient?.createReceiver(queueName, {
+      this.receiver = this.serviceBusClient?.createReceiver(queueName, {
         receiveMode: 'peekLock'
       })
 
-      if (!receiver) {
-        console.error('ServiceBusClient not initialized.')
-        return
-      }
-
-      receiver.subscribe(
+      this.receiver.subscribe(
         {
           processMessage: async (message) => {
             await this.processQueueMessage(
               message,
-              receiver
+              this.receiver
             )
           },
           processError: async (error) => {
@@ -111,9 +111,15 @@ class MessageProcessorService {
         { autoCompleteMessages: false }
       )
       console.log(`Started listening for messages on queue: ${queueName}`)
+      return 'success'
     } catch (error) {
       console.error('Error setting up message receiver:', error)
+      return error
     }
+  }
+
+  getReciever () {
+    return this.receiver
   }
 
   async processQueueMessage (
@@ -123,7 +129,6 @@ class MessageProcessorService {
   ) {
     try {
       const data = message.body
-      console.log({ data })
       const bankAccountData = {
         SupplierAccount: data?.SupplierAccount,
         BankName: data?.BankName,
@@ -159,7 +164,6 @@ class MessageProcessorService {
 
       await this.sendMessageToCRMQueue(crmMessage)
       await receiver.completeMessage(message)
-
       return true
     } catch (error) {
       if (retryAttempts > 0) {
@@ -178,6 +182,7 @@ class MessageProcessorService {
   async sendMessageToCRMQueue (message) {
     try {
       await this.sender.sendMessages({ body: message })
+      return 'success'
     } catch (error) {
       console.log({ error })
       throw error
