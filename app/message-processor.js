@@ -129,6 +129,7 @@ class MessageProcessorService {
   ) {
     try {
       const data = message.body
+      console.log('recieved data from the bank queue', data)
       const bankAccountData = {
         SupplierAccount: data?.SupplierAccount,
         BankName: data?.BankName,
@@ -139,10 +140,14 @@ class MessageProcessorService {
         CurrencyCode: data?.CurrencyCode
       }
 
+      console.log('sending the data to the d365 service', bankAccountData)
+
       const response = await axios.post(
         process.env.D365_API_URL,
         bankAccountData
       )
+
+      console.log('response from the d365 service', response?.data)
 
       if (!response?.data?.Result) {
         throw new Error()
@@ -182,6 +187,7 @@ class MessageProcessorService {
   async sendMessageToCRMQueue (message) {
     try {
       await this.sender.sendMessages({ body: message })
+      console.log('Message successfully sent to the case queue!', message)
       return 'success'
     } catch (error) {
       console.log({ error })
