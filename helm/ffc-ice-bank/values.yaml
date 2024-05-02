@@ -29,7 +29,11 @@ container:
   serviceBusHost: SNDFFCINFSB1001.servicebus.windows.net
   bankDetailsQueue: ffc-rpi-bao-bankdetails
   caseDetailsQueue: ffc-rpi-bao-casedetails
-  dynamics365ApiUrl:
+  d365ApiHost:
+  d365ApiUrl:
+  d365TenantID:
+  d365ClientID:
+  d365ClientSecret:
   serviceBusConnectionString:  
   serviceBusUsername:  
   serviceBusPassword:  

@@ -6,6 +6,7 @@ data:
   APPINSIGHTS_CLOUDROLE: {{ quote .Values.name }}
   BANK_DETAILS_QUEUE: {{ quote .Values.container.bankDetailsQueue }}
   CASE_DETAILS_QUEUE: {{ quote .Values.container.caseDetailsQueue }}
-  D365_API_URL: {{ quote .Values.container.dynamics365ApiUrl }}
+  D365_API_URL: {{ quote .Values.container.d365ApiUrl }}
+  D365_API_HOST: {{ quote .Values.container.d365ApiHost }}
   SERVICE_BUS_HOST: {{ quote .Values.container.serviceBusHost }}
 {{- end -}}

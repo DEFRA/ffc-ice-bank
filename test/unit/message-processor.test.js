@@ -44,10 +44,10 @@ jest.mock('@azure/identity', () => ({
   DefaultAzureCredential: jest.fn()
 }))
 
-jest.mock('axios', () => {
+jest.mock('../../app/api', () => {
   return {
     post: jest.fn(async (url, data) => {
-      if (data && data.CurrencyCode) {
+      if (data._request && data._request.CurrencyCode) {
         return {
           data: {
             $id: '1',
