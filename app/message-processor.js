@@ -1,5 +1,5 @@
 const { ServiceBusClient } = require('@azure/service-bus')
-const axios = require('axios')
+const api = require('./api')
 const { DefaultAzureCredential } = require('@azure/identity')
 
 const CONNECTION_RETRIES = 5
@@ -129,23 +129,25 @@ class MessageProcessorService {
   ) {
     try {
       const data = message.body
+      console.log('received message with data ', data)
       const bankAccountData = {
-        SupplierAccount: data?.SupplierAccount,
-        BankName: data?.BankName,
-        BankIBAN: data?.BankIBAN,
-        BankAccountNumber: data?.BankAccountNumber,
-        RoutingNumber: data?.RoutingNumber,
-        SwiftNo: data?.SwiftNo,
-        CurrencyCode: data?.CurrencyCode
+        _request: {
+          SupplierAccount: data?.SupplierAccount,
+          BankName: data?.BankName,
+          BankIBAN: data?.BankIBAN || '',
+          BankAccountNumber: data?.BankAccountNumber,
+          RoutingNumber: data?.RoutingNumber,
+          SwiftNo: data?.SwiftNo || '',
+          CurrencyCode: data?.CurrencyCode
+        }
       }
 
-      const response = await axios.post(
-        process.env.D365_API_URL,
-        bankAccountData
-      )
+      const response = await api.post('/RSFVendBankAccountServiceGroup/RSFVendBankAccountService/create', bankAccountData)
+
+      console.log('D365 Response : ', response.data)
 
       if (!response?.data?.Result) {
-        throw new Error()
+        throw new Error(JSON.stringify(response.data.InfoMessages))
       }
 
       const crmMessage = {
@@ -159,13 +161,14 @@ class MessageProcessorService {
         type: data?.type,
         bankAccountNumber: data?.bankAccountNumber,
         listofCRNwithEmpowerment: data?.listofCRNwithEmpowerment,
-        holdStatus: response?.data?.SupplierHoldStatus
+        holdStatus: response?.data?.SupplierHoldStatus,
+        crmBankAccountNumber: data?.crmBankAccountNumber
       }
-
       await this.sendMessageToCRMQueue(crmMessage)
       await receiver.completeMessage(message)
       return true
     } catch (error) {
+      console.log({ error })
       if (retryAttempts > 0) {
         console.log(
             `Retrying message processing (${retryAttempts} attempts remaining)`
@@ -181,6 +184,7 @@ class MessageProcessorService {
 
   async sendMessageToCRMQueue (message) {
     try {
+      console.log('Sending message to case queue with body :', message)
       await this.sender.sendMessages({ body: message })
       return 'success'
     } catch (error) {
