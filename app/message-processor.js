@@ -161,7 +161,7 @@ class MessageProcessorService {
         type: data?.type,
         bankAccountNumber: data?.bankAccountNumber,
         listofCRNwithEmpowerment: data?.listofCRNwithEmpowerment,
-        holdStatus: response?.data?.supplierHoldStatus,
+        holdStatus: response?.data?.SupplierHoldStatus,
         crmBankAccountNumber: data?.crmBankAccountNumber
       }
       await this.sendMessageToCRMQueue(crmMessage)
