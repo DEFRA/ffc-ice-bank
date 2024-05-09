@@ -169,20 +169,19 @@ describe('MessageProcessorService', () => {
         sbi: '123456789',
         frn: '123456789',
         crn: '123456789',
-        SubmissionId: '123456789_1642721400',
+        submissionId: '123456789_1642721400',
         submissionDateTime: '01/01/2023 14:12:11',
         filesInSubmission: 0,
         files: [''],
         type: 'Bank Account Update',
-        bankAccountNumber: '23456',
         listofCRNwithEmpowerment: ['CRN'],
-        SupplierAccount: '123456789',
-        BankName: 'Acme Office Supplies',
-        BankIBAN: 'CH5604835012345678009',
-        BankAccountNumber: '012345678009',
-        RoutingNumber: '04835',
-        SwiftNo: 'CRESCHZZ80A',
-        CurrencyCode: 'GBP'
+        supplierAccount: '123456789',
+        bankName: 'Acme Office Supplies',
+        bankIBAN: 'CH5604835012345678009',
+        bankAccountNumber: '012345678009',
+        routingNumber: '04835',
+        swiftNo: 'CRESCHZZ80A',
+        currencyCode: 'GBP'
       }
     }
 
@@ -197,19 +196,18 @@ describe('MessageProcessorService', () => {
         sbi: '123456789',
         frn: '123456789',
         crn: '123456789',
-        SubmissionId: '123456789_1642721400',
+        submissionId: '123456789_1642721400',
         submissionDateTime: '01/01/2023 14:12:11',
         filesInSubmission: 0,
         files: [''],
         type: 'Bank Account Update',
-        bankAccountNumber: '23456',
         listofCRNwithEmpowerment: ['CRN'],
-        SupplierAccount: '123456789',
-        BankName: 'Acme Office Supplies',
-        BankIBAN: 'CH5604835012345678009',
-        BankAccountNumber: '012345678009',
-        RoutingNumber: '04835',
-        SwiftNo: 'CRESCHZZ80A'
+        supplierAccount: '123456789',
+        bankName: 'Acme Office Supplies',
+        bankIBAN: 'CH5604835012345678009',
+        bankAccountNumber: '012345678009',
+        routingNumber: '04835',
+        swiftNo: 'CRESCHZZ80A'
       }
     }
 
