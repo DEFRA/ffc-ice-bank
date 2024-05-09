@@ -1,8 +1,8 @@
 require('dotenv').config()
 const axios = require('axios')
 
-const isValidAccessToken = config => config.defaults.headers.common.Authorization &&
-  config.defaults._tokenExpiry * 1000 > Date.now()
+const isValidAccessToken = config => config?.defaults?.headers?.common?.Authorization &&
+  config?.defaults?._tokenExpiry * 1000 > Date.now()
 
 const getAccessToken = async () => {
   try {

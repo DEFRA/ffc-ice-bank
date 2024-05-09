@@ -132,13 +132,13 @@ class MessageProcessorService {
       console.log('received message with data ', data)
       const bankAccountData = {
         _request: {
-          SupplierAccount: data?.SupplierAccount,
-          BankName: data?.BankName,
-          BankIBAN: data?.BankIBAN || '',
-          BankAccountNumber: data?.BankAccountNumber,
-          RoutingNumber: data?.RoutingNumber,
-          SwiftNo: data?.SwiftNo || '',
-          CurrencyCode: data?.CurrencyCode
+          SupplierAccount: data?.supplierAccount,
+          BankName: data?.bankName,
+          BankIBAN: data?.bankIBAN || '',
+          BankAccountNumber: data?.bankAccountNumber,
+          RoutingNumber: data?.routingNumber,
+          SwiftNo: data?.swiftNo || '',
+          CurrencyCode: data?.currencyCode
         }
       }
 
@@ -154,14 +154,14 @@ class MessageProcessorService {
         sbi: data?.sbi,
         frn: data?.frn,
         crn: data?.crn,
-        SubmissionId: data?.SubmissionId,
+        SubmissionId: data?.submissionId,
         submissionDateTime: data?.submissionDateTime,
         filesInSubmission: data?.filesInSubmission,
         files: data?.files,
         type: data?.type,
         bankAccountNumber: data?.bankAccountNumber,
         listofCRNwithEmpowerment: data?.listofCRNwithEmpowerment,
-        holdStatus: response?.data?.SupplierHoldStatus,
+        holdStatus: response?.data?.supplierHoldStatus,
         crmBankAccountNumber: data?.crmBankAccountNumber
       }
       await this.sendMessageToCRMQueue(crmMessage)
