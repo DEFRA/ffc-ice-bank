@@ -12,4 +12,8 @@ const setup = () => {
   }
 }
 
-module.exports = { setup }
+const trackException = (error) => {
+  appInsights.defaultClient.trackException({ exception: error })
+}
+
+module.exports = { setup, trackException }
