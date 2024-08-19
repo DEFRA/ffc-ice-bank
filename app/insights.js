@@ -13,7 +13,9 @@ const setup = () => {
 }
 
 const trackException = (error) => {
-  appInsights.defaultClient?.trackException({ exception: error })
+  if (appInsights.defaultClient) {
+    appInsights.defaultClient.trackException({ exception: error })
+  }
 }
 
 module.exports = { setup, trackException }
