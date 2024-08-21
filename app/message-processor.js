@@ -1,6 +1,7 @@
 const { ServiceBusClient } = require('@azure/service-bus')
 const api = require('./api')
 const { DefaultAzureCredential } = require('@azure/identity')
+const { trackException } = require('./insights')
 
 const CONNECTION_RETRIES = 5
 const RETRY_DELAY = 5
@@ -105,6 +106,7 @@ class MessageProcessorService {
             )
           },
           processError: async (error) => {
+            trackException(error)
             console.error('Error in message processing:', error)
           }
         },
