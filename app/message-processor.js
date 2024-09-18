@@ -177,6 +177,7 @@ class MessageProcessorService {
         )
         return this.processQueueMessage(message, receiver, retryAttempts - 1)
       } else {
+        trackException(error)
         console.error('Moving message to Dead-Letter Queue')
         await receiver.deadLetterMessage(message)
         return false
