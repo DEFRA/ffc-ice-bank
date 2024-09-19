@@ -20,7 +20,7 @@
     "@azure/identity": "^4.0.1",
     "@azure/service-bus": "^7.9.4",
     "@hapi/hapi": "21.3.2",
-    "applicationinsights": "2.9.1",
+    "applicationinsights": "2.9.4",
     "axios": "^1.6.7",
     "dotenv": "^16.4.4"
   },
