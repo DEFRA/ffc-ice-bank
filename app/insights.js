@@ -14,7 +14,11 @@ const setup = () => {
 
 const trackException = (error) => {
   if (appInsights.defaultClient) {
-    appInsights.defaultClient.trackException({ exception: error })
+    try {
+      appInsights.defaultClient.trackException({ exception: error })
+    } catch (err) {
+      console.log('Unable to track exception', err)
+    }
   }
 }
 
