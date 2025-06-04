@@ -10,7 +10,6 @@ const init = async () => {
 // Disable all console logging in non-development environments to prevent
 // sensitive logs or excessive output in production.
 // This includes console.log, console.debug, console.info, and console.warn.
-// This does not include other console functions
 if (process.env.NODE_ENV != "development") { 
     console.log = () => {};
     console.debug = () => {};
