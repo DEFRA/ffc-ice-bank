@@ -1,6 +1,6 @@
 {
   "name": "ffc-ice-bank",
-  "version": "0.1.11",
+  "version": "0.1.13",
   "description": "FFC Bank microservice",
   "homepage": "https://github.com/DEFRA/ffc-ice-bank",
   "main": "app/index.js",
