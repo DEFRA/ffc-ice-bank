@@ -1,6 +1,6 @@
 {
   "name": "ffc-ice-bank",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "FFC Bank microservice",
   "homepage": "https://github.com/DEFRA/ffc-ice-bank",
   "main": "app/index.js",
@@ -21,7 +21,7 @@
     "@azure/service-bus": "^7.9.4",
     "@hapi/hapi": "21.3.2",
     "applicationinsights": "2.9.1",
-    "axios": "^1.6.7",
+    "axios": "^1.9.0",
     "dotenv": "^16.4.4"
   },
   "devDependencies": {
