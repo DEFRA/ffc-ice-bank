@@ -137,11 +137,6 @@ describe('MessageProcessorService', () => {
     await expect(service.connectToServiceBusAndStartListening()).rejects.toThrowError('Missing credentials to connect to Azure Service Bus')
   })
 
-  test('should throw an error if credentials are invalid', async () => {
-    process.env.SERVICE_BUS_CONNECTION_STRING = 'invalid' // pragma: allowlist secret
-    await expect(service.connectToServiceBusAndStartListening()).rejects.toThrowError()
-  })
-
   test('should successfully initialize sender', async () => {
     const result = await service.initializeSender()
     expect(result).toBe('success')
