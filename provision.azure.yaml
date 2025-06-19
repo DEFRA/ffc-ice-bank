@@ -1,0 +1,8 @@
+resources:
+  identity: ffc-ice-bank  
+  queues:
+    - name: ffc-rpi-bao-casedetails
+      role: sender
+    - name: ffc-rpi-bao-bankdetails
+      role: receiver  
+     
