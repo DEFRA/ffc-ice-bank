@@ -1,0 +1,2 @@
+container.bankDetailsQueue : queue:ffc-rpi-bao-bankdetails
+container.caseDetailsQueue : queue:ffc-rpi-bao-casedetails

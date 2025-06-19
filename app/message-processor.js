@@ -46,23 +46,13 @@ class MessageProcessorService {
     let retryAttempts = 0
     let skipRetry = false
     const successMessage = 'Successfully connected to Azure Service Bus!'
-    const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING
     const host = process.env.SERVICE_BUS_HOST
-    const username = process.env.SERVICE_BUS_USERNAME
-    const password = process.env.SERVICE_BUS_PASSWORD
+    const credential = new DefaultAzureCredential({ managedIdentityClientId: process.env.AZURE_CLIENT_ID })
 
     while (retryAttempts < retries) {
       try {
-        if (connectionString) {
-          this.serviceBusClient = new ServiceBusClient(connectionString)
-          console.log(successMessage)
-          return
-        } else if (host && username && password) {
-          this.serviceBusClient = new ServiceBusClient(`Endpoint=sb://${host}/;SharedAccessKeyName=${username};SharedAccessKey=${password}`)
-          console.log(successMessage)
-          return
-        } else if (host) {
-          this.serviceBusClient = new ServiceBusClient(host, new DefaultAzureCredential())
+        if (host && credential) {
+          this.serviceBusClient = new ServiceBusClient(host, credential)
           console.log(successMessage)
           return
         } else {
